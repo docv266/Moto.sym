@@ -25,6 +25,7 @@
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
+/web/media/
 
 # PHPUnit
 /app/phpunit.xml
@@ -32,3 +33,8 @@
 
 # Composer PHAR
 /composer.phar
+
+#Windows
+desktop.ini
+Thumbs.db
+*~

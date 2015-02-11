@@ -1,0 +1,33 @@
+{% extends "docMotoBundle::layout.html.twig" %}
+
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+
+{% block docmoto_body %}
+
+  <h2>Liste des annonces</h2>
+
+  <ul>
+    {% for annonce in listeAnnonces %}
+      <li>
+        <a href="{{ path('doc_moto_annonce', {'id': annonce.id}) }}">
+          {{ annonce.titre }}
+        </a>
+      </li>
+	  {% if annonce.photo1 is not null %}
+		<img 
+		  src="{{ asset((annonce.photo1.webPath) | apply_filter('my_petit')) }}"
+		  alt="{{ annonce.photo1.alt }}"
+		/>
+	  {% endif %}
+
+	  {{ annonce.moto.marque.nom }}
+	  {{ annonce.moto.modele }} <br />
+	  de {{ annonce.pseudo }} en {{ annonce.departement.nom }} <br />
+    {% else %}
+      <li>Pas (encore !) d'annonces</li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

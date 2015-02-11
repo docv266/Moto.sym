@@ -1,0 +1,31 @@
+{% extends "docMotoBundle::layout.html.twig" %}
+
+{% block title %}
+  Supprimer une annonce - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  <h2>Supprimer une annonce</h2>
+
+  <p>
+    Etes-vous certain de vouloir supprimer l'annonce "{{ annonce.titre }}" ?
+  </p>
+
+  {# On met l'id de l'annonce dans la route de l'action du formulaire #}
+  <form action="{{ path('doc_moto_supprimer', {'id': annonce.id}) }}" method="post">
+    <a href="{{ path('doc_moto_annonce', {'id': annonce.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à l'annonce
+    </a>
+	
+	<br />
+	<br />
+	
+	{{ form_rest(form) }}
+	
+    
+	
+  </form>
+
+{% endblock %}

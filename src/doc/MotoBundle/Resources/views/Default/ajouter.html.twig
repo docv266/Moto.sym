@@ -1,0 +1,199 @@
+{% extends "docMotoBundle::layout.html.twig" %}
+
+{% block title %}
+  Ajouter - {{ parent() }}
+{% endblock %}
+
+{% block docmoto_body %}
+
+  <h2>Ajout</h2>
+
+  <div class="well">
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+    <div class="form-group">
+      {{ form_label(form.titre, "Titre de l'annonce*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	  {{ form_errors(form.titre) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+	
+			
+	<div class="form-group">
+      {{ form_label(form.moto, "Modèle*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	  {{ form_errors(form.moto) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.moto, {'attr': {'class': 'chzn-select'}}) }}
+      </div>
+    </div>
+	
+	
+    <div class="form-group">
+      {{ form_label(form.photo1, "Première photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	  {{ form_errors(form.photo1) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.photo1) }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      {{ form_label(form.photo2, "Deuxième photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	  {{ form_errors(form.photo2) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.photo2) }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      {{ form_label(form.photo3, "Troisième photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+	  {{ form_errors(form.photo3) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.photo3) }}
+      </div>
+    </div>
+	
+	{# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.description, "Contenu de l'annonce*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.titre) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.annee, "Année*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.annee) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.kilometrage, "Kilométrage*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.kilometrage) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.kilometrage, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+	
+	<div class="form-group">
+      {{ form_label(form.motos_voulues, "Motos voulues", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.motos_voulues) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.motos_voulues, {'attr': {'class': 'chzn-select'}}) }}
+      </div>
+    </div>
+	
+    <div class="form-group">
+      {{ form_label(form.marques_voulues, "Marques voulues", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.marques_voulues) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.marques_voulues, {'attr': {'class': 'chzn-select'}}) }}
+      </div>
+    </div>
+	
+	
+    <div class="form-group">
+      {{ form_label(form.genres_voulus, "Genres voulus", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.genres_voulus) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.genres_voulus, {'attr': {'class': 'chzn-select'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.anneeMini, "Année minimum", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.anneeMini) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.anneeMini, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.kilometrageMaxi, "Kilométrage maximum", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.kilometrageMaxi) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.kilometrageMaxi, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+	
+	{# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.departement, "Département*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.departement) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.pseudo, "Nom*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.pseudo) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.mail, "Adresse mail*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.mail) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.telephone, "Téléphone", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.telephone) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+	
+    <div class="form-group">
+      {{ form_label(form.password.first, "Mot de passe*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.password.first) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.password.first, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+	
+    <div class="form-group">
+      {{ form_label(form.password.second, "Mot de passe (validation)*", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+      {{ form_errors(form.password.second) }}
+      <div class="col-sm-4">
+        {{ form_widget(form.password.second, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+  
+
+  
+
+  {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+  {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+  {# Génération automatique des champs pas encore écrits.
+     Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+     et tous les champs cachés (type « hidden »). #}
+  {{ form_rest(form) }}
+  
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}
+</div>
+
+{% endblock %}

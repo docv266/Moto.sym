@@ -1,0 +1,17 @@
+doc_moto:
+    resource: "@docMotoBundle/Resources/config/routing.yml"
+    prefix:   /moto
+
+_imagine:
+    resource: .
+    type:     imagine
+
+login:
+    pattern:   /login
+    defaults:  { _controller: docUserBundle:Security:login }
+
+login_check:
+    pattern:   /login_check
+
+logout:
+    pattern:   /logout

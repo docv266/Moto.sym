@@ -1,0 +1,41 @@
+doc_moto_accueil:
+    path:     /
+    defaults: { _controller: docMotoBundle:Default:index }
+
+doc_moto_annonce:
+    path:      /annonce/{id}
+    defaults:  { _controller: docMotoBundle:Default:annonce }
+    requirements:
+        id: \d+
+
+doc_moto_ajouter:
+    path:      /ajouter
+    defaults:  { _controller: docMotoBundle:Default:ajouter }
+    
+doc_moto_supprimer:
+    path:      /supprimer/{id}
+    defaults:  { _controller: docMotoBundle:Default:supprimer }
+    requirements:
+        id: \d+
+    
+doc_moto_editer:
+    path:      /editer/{id}
+    defaults:  { _controller: docMotoBundle:Default:editer }
+    requirements:
+        id: \d+
+    
+doc_moto_annonces_compatibles:
+    path:      /annoncescompatibles/{id}
+    defaults:  { _controller: docMotoBundle:Default:annoncescompatibles }
+    requirements:
+        id: \d+
+
+doc_moto_pageValider:
+    path:      /pageValider/{code}
+    defaults:  { _controller: docMotoBundle:Default:pageValider }
+    requirements:
+        code: ^.{32}$
+
+doc_moto_activer:
+    path:      /activer
+    defaults:  { _controller: docMotoBundle:Default:activer }

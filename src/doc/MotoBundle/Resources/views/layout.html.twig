@@ -1,0 +1,31 @@
+{% extends "::layout.html.twig" %}
+
+{% block stylesheets %}
+
+	{{ parent() }}
+	
+	
+{% endblock %}
+
+{% block title %}
+  Annonces - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+  
+
+  <hr>
+
+  {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+  {% block docmoto_body %}
+  {% endblock %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+   	
+ 	
+{% endblock %}

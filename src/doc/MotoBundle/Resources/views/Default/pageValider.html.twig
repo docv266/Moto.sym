@@ -1,0 +1,22 @@
+{% extends "docMotoBundle::layout.html.twig" %}
+
+{% block title %}
+  Valider l'annonce
+{% endblock %}
+
+{% block docmoto_body %}
+
+  <h2>
+  Valider l'annonce
+  </h2>
+
+  {% if annonce is null %}
+   - Validation impossible
+  {% else %}
+  - Annonce validée! <br />
+  <a href="{{ path('doc_moto_annonce', {'id': annonce.id}) }}">
+          Voir l'annonce
+  </a>
+  {% endif %}
+  
+{% endblock %}
