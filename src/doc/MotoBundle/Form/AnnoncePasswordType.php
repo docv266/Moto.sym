@@ -5,8 +5,9 @@ namespace doc\MotoBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use doc\MotoBundle\Entity\MotoRepository;
 
-class PhotoType extends AbstractType
+class AnnoncePasswordType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,10 +16,9 @@ class PhotoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', 'file',
-			array('attr' => array('class' => 'file'),
-					'label' => false
-				))
+            
+            ->add('password',	'password')
+			->add('save', 		'submit')
         ;
     }
     
@@ -28,7 +28,7 @@ class PhotoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'doc\MotoBundle\Entity\Photo'
+            'data_class' => 'doc\MotoBundle\Entity\Annonce'
         ));
     }
 
@@ -37,6 +37,6 @@ class PhotoType extends AbstractType
      */
     public function getName()
     {
-        return 'doc_motobundle_photo';
+        return 'doc_motobundle_annonce';
     }
 }

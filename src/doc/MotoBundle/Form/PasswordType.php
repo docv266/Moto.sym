@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class PhotoType extends AbstractType
+class PasswordType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,28 +15,16 @@ class PhotoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', 'file',
-			array('attr' => array('class' => 'file'),
-					'label' => false
-				))
+            ->add('password', 'password')
+			->add('save',     'submit')	
         ;
     }
     
-    /**
-     * @param OptionsResolverInterface $resolver
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'doc\MotoBundle\Entity\Photo'
-        ));
-    }
-
     /**
      * @return string
      */
     public function getName()
     {
-        return 'doc_motobundle_photo';
+        return 'doc_motobundle_passwordAnnonce';
     }
 }

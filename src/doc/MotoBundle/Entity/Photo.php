@@ -205,4 +205,9 @@ class Photo
     {
         return $this->alt;
     }
+	
+	public function getLabel()
+    {
+		return 'Photo';
+    }
 }

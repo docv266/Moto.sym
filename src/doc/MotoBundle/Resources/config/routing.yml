@@ -37,5 +37,5 @@ doc_moto_pageValider:
         code: ^.{32}$
 
 doc_moto_activer:
-    path:      /activer
-    defaults:  { _controller: docMotoBundle:Default:activer }
+    path:      /activer/{id}
+    defaults:  { _controller: docMotoBundle:Default:activer, id = 0 }

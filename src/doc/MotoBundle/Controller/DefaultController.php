@@ -11,12 +11,13 @@ use doc\MotoBundle\Entity\Departement;
 use doc\MotoBundle\Form\AnnonceType;
 use doc\MotoBundle\Form\AnnonceDeleteType;
 use doc\MotoBundle\Form\AnnonceEditType;
+use doc\MotoBundle\Form\PasswordType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 		
 		$repository = $this
@@ -27,7 +28,12 @@ class DefaultController extends Controller
 		$listeAnnonces = $repository->findByAutorisee(true);
 		
 		
-        return $this->render('docMotoBundle:Default:index.html.twig', array('listeAnnonces' => $listeAnnonces));
+		$messagesTableau = $request->getSession()->getFlashBag()->get('notice');
+		
+		$message = end($messagesTableau);
+		
+		
+        return $this->render('docMotoBundle:Default:index.html.twig', array('listeAnnonces' => $listeAnnonces, 'message' => $message));
     }
 	
     public function ajouterAction(Request $request)
@@ -55,7 +61,7 @@ class DefaultController extends Controller
 		  $em->persist($annonce);
 		  $em->flush();
 
-		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.<br />Vous allez recevoir un mail pour la valider.');
 
 		  
 		  // Envoi du mail
@@ -90,36 +96,53 @@ class DefaultController extends Controller
 			throw new NotFoundHttpException('Page inexistante.');
 		}
 		
-		
-			
-
-		
 		$form = $this->get('form.factory')->create(new AnnonceEditType, $annonce);
-		
 		$form->handleRequest($request);
 		
+		$form2 = $this->createForm(new PasswordType());
+		$form2->handleRequest($request);
 		
-		// On vérifie que les valeurs entrées sont correctes
-		if ($form->isValid())
+		$factory = $this->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($annonce);	
+		
+		$passwordCorrect = $annonce->getPassword() === $encoder->encodePassword($form2->get('password')->getData(), $annonce->getSalt());
+		if (($form2->isValid() AND $passwordCorrect == true) OR $form->isValid())
 		{
-		  // On l'enregistre notre objet $annonce dans la base de données, par exemple
-		  $em = $this->getDoctrine()->getManager();
-		  $em->persist($annonce);
-		  $em->flush();
+			
+			// On vérifie que les valeurs entrées sont correctes
+			if ($form->isValid())
+			{
+			  // On enregistre notre objet $annonce dans la base de données, par exemple
+			  $em = $this->getDoctrine()->getManager();
+			  $em->persist($annonce);
+			  $em->flush();
 
-		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
+			  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
-		  
-		  
-		  
-		  // On redirige vers la page de visualisation de l'annonce nouvellement créée
-		  return $this->redirect($this->generateUrl('doc_moto_annonce', array('id' => $annonce->getId())));
+			  		  
+			  // On redirige vers la page de visualisation de l'annonce nouvellement modifiée
+			  return $this->redirect($this->generateUrl('doc_moto_annonce', array('id' => $annonce->getId())));
+			}
+
+			// À ce stade, le formulaire n'est pas valide car :
+			// - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
+			// - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
+			return $this->render('docMotoBundle:Default:editer.html.twig', array('form' => $form->createView(), 'passwordOk' => true ));
+			
 		}
-
-		// À ce stade, le formulaire n'est pas valide car :
-		// - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
-		// - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
-		return $this->render('docMotoBundle:Default:editer.html.twig', array('form' => $form->createView(), ));
+		else
+		{
+			if ($form2->get('password')->getData() != null)
+			{
+				$messageErreur = 'Mot de passe incorrect';
+			}
+			else
+			{
+				$messageErreur = null;
+			}
+			
+			return $this->render('docMotoBundle:Default:editer.html.twig', array('form2' => $form2->createView(), 'annonce' => $annonce, 'passwordOk' => false, 'messageErreur' => $messageErreur));
+		}
     }
 	
 	public function supprimerAction($id, Request $request)
@@ -135,14 +158,19 @@ class DefaultController extends Controller
 		}
 		
 		
-		$form = $this->get('form.factory')->create(new AnnonceDeleteType, $annonce);
+		$form = $this->get('form.factory')->create(new PasswordType);
 		
 		$form->handleRequest($request);
+		
+		$factory = $this->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($annonce);	
 		
 		
 		// On vérifie que les valeurs entrées sont correctes
 		// (Nous verrons la validation des objets en détail dans le prochain chapitre)
-		if ($form->isValid())
+		$passwordCorrect = $annonce->getPassword() === $encoder->encodePassword($form->get('password')->getData(), $annonce->getSalt());
+		
+		if ($form->isValid() AND $passwordCorrect == true)
 		{
 		  $em->remove($annonce);
 		  $em->flush();
@@ -152,15 +180,33 @@ class DefaultController extends Controller
 		  return $this->redirect($this->generateUrl('doc_moto_accueil'));
 		}
 
+		if ($form->get('password')->getData() != null)
+		{
+			$messageErreur = 'Mot de passe incorrect';
+		}
+		else
+		{
+			$messageErreur = null;
+		}
+		
+		
 		// À ce stade, le formulaire n'est pas valide car :
 		// - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
 		// - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
-		return $this->render('docMotoBundle:Default:supprimer.html.twig', array('form' => $form->createView(), 'annonce' => $annonce));
+		return $this->render('docMotoBundle:Default:supprimer.html.twig', array('form' => $form->createView(), 'annonce' => $annonce, 'messageErreur' => $messageErreur));
     }
 	
-    public function annoncescompatiblesAction()
+    public function annoncescompatiblesAction($id)
     {
-        return $this->render('docMotoBundle:Default:annoncescompatibles.html.twig');
+		$repository = $this
+		  ->getDoctrine()
+		  ->getManager()
+		  ->getRepository('docMotoBundle:Annonce');
+
+		$listeAnnonces = $repository->getAnnoncesCompatibles($id);
+		
+		
+        return $this->render('docMotoBundle:Default:annoncescompatibles.html.twig', array('listeAnnonces' => $listeAnnonces));
     }
 	
     public function annonceAction($id)
@@ -197,16 +243,36 @@ class DefaultController extends Controller
 	/**
     * @Security("has_role('ROLE_ADMIN')")
     */
-	public function activerAction()
+	public function activerAction($id)
     {
 		
-		$repository = $this
-		  ->getDoctrine()
-		  ->getManager()
-		  ->getRepository('docMotoBundle:Annonce');
-
+		$em = $this->getDoctrine()->getManager();
+		$repository = $em->getRepository('docMotoBundle:Annonce');
+		
+		if ($id > 0)
+		{
+			$annonce = $repository->find($id);
+			$em->persist($annonce);
+			$annonce->setAutorisee(true);
+			$em->flush();
+		}
+		
+			
 		$listeAnnonces = $repository->findBy(array('validee' => true, 'autorisee' => false));
+		
+		if ($id == -1)
+		{
+			foreach ($listeAnnonces as $annonce)
+			{
+				$em->persist($annonce);
+				$annonce->setAutorisee(true);
+				$em->flush();
+			}
+			
+			return $this->render('docMotoBundle:Default:activer.html.twig', array('listeAnnonces' => null));
+		}
 		
         return $this->render('docMotoBundle:Default:activer.html.twig', array('listeAnnonces' => $listeAnnonces));
     }
+	
 }

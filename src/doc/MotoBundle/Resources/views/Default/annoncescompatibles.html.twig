@@ -6,8 +6,9 @@
 
 {% block docmoto_body %}
 
-  <h2>Annonces à activer</h2>
+  <h2>Liste des annonces compatibles</h2>
 
+    
   <ul>
     {% for annonce in listeAnnonces %}
       <li>
@@ -25,24 +26,9 @@
 	  {{ annonce.moto.marque.nom }}
 	  {{ annonce.moto.modele }} <br />
 	  de {{ annonce.pseudo }} en {{ annonce.departement.nom }} <br />
-	  
-	<a href="{{ path('doc_moto_activer', {'id': annonce.id}) }}" class="btn btn-default">
-      Activer cette annonce
-	</a>
-	  
-	  
     {% else %}
       <li>Pas (encore !) d'annonces</li>
     {% endfor %}
-	
-	
   </ul>
-  
-  {% if listeAnnonces %}
-	<a href="{{ path('doc_moto_activer', {'id': -1}) }}" class="btn btn-default">
-      Activer toutes ces annonces
-	</a>
-  {% endif %}
-  
-  
+
 {% endblock %}

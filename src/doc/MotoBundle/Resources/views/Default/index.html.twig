@@ -8,6 +8,17 @@
 
   <h2>Liste des annonces</h2>
 
+  {% if message %} 
+		<div class="alert alert-success" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Succès:</span>
+			{{ message }}  
+		</div>
+  {% endif %}
+  
+	
+  
   <ul>
     {% for annonce in listeAnnonces %}
       <li>

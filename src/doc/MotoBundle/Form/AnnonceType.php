@@ -72,6 +72,10 @@ class AnnonceType extends AbstractType
             ->add('photo1', 			new PhotoType(), array('required' => false))
             ->add('photo2', 			new PhotoType(), array('required' => false))
             ->add('photo3', 			new PhotoType(), array('required' => false))
+			
+					
+			
+			
 			->add('save',      			'submit')
         ;
     }
