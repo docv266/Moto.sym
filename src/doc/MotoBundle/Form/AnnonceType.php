@@ -20,8 +20,7 @@ class AnnonceType extends AbstractType
             ->add('annee',      		'text')
             ->add('kilometrage',      	'text')
             ->add('description',      	'textarea')
-            ->add('anneeMini',      	'text', array('required' => false))
-            ->add('kilometrageMaxi',    'text', array('required' => false))
+            ->add('prix',      			'text')
             ->add('pseudo',      		'text')
             ->add('mail',      			'email')
             ->add('telephone',      	'text', array('required' => false))
@@ -69,12 +68,15 @@ class AnnonceType extends AbstractType
 				'attr' => array('class' => 'chzn-select')
 			  ))
             
-            ->add('photo1', 			new PhotoType(), array('required' => false))
-            ->add('photo2', 			new PhotoType(), array('required' => false))
-            ->add('photo3', 			new PhotoType(), array('required' => false))
 			
-					
-			
+				
+			->add('photos', 'collection', array(
+				'type'         => new PhotoType(),
+                'by_reference' => false,
+				'allow_add'    => true,
+				'allow_delete' => true,
+				'required' => false,
+			  ))
 			
 			->add('save',      			'submit')
         ;

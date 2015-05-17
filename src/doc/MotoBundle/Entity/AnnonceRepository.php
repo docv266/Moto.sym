@@ -15,8 +15,8 @@ class AnnonceRepository extends EntityRepository
 	
 	public function getAnnoncesCompatibles($id)
 	{
-		$query = $this->_em->createQuery('SELECT a FROM docMotoBundle:Annonce a JOIN a.genres_voulus g WHERE g.nom = :genre');
-		$query->setParameter('genre', 'Roadster');
+		$query = $this->_em->createQuery('SELECT a FROM docMotoBundle:Annonce a JOIN a.moto g WHERE g.genre = :genre');
+		$query->setParameter('genre', '2');
 		
 		
 		$results = $query->getResult();

@@ -15,6 +15,7 @@ class AnnonceEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->remove('password');
+        $builder->remove('mail');
     }
     
     /**

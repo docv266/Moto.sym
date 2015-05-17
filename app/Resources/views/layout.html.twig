@@ -9,8 +9,6 @@
   {% block stylesheets %}
     {# On charge le CSS de bootstrap depuis le site directement #}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/Symfony/web/chosen/chosen.css">
-	<link rel="stylesheet" href="/Symfony/web/kartik-v-bootstrap-fileinput/css/fileinput.min.css" media="all" type="text/css" />
 		
   {% endblock %}
 </head>
@@ -22,7 +20,7 @@
     </div>
 
     <div class="row">
-      <div id="menu" class="col-md-3">
+      <div id="menu" class="col-lg-2">
         <h3>Les annonces</h3>
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('doc_moto_accueil') }}">Accueil</a></li>
@@ -30,10 +28,12 @@
         </ul>
 
       </div>
-      <div id="content" class="col-md-9">
+	  
+      <div id="content" class="col-lg-10">
         {% block body %}
         {% endblock %}
       </div>
+	  
     </div>
 
     <hr>
@@ -44,20 +44,10 @@
   </div>
 
   {% block javascripts %}
-    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<script type="text/JavaScript" src="/Symfony/web/chosen/chosen.jquery.min.js"></script>
-	<script type="text/JavaScript" src="/Symfony/web/kartik-v-bootstrap-fileinput/js/fileinput.min.js"></script>
-	
-	<script>
-       	   
-	   jQuery(document).ready(function(){
-           $('select.chzn-select').chosen();
-		   $("doc_motobundle_annonce_photo1_file").fileinput();
-       });
-   </script>
-		
+			
   {% endblock %}
 
 </body>

@@ -10,25 +10,62 @@
 
     
   <ul>
+  
+	<table class="table table-bordered">
+  
+	{% if listeAnnonces %}
+  
+	<tr>
+		<th>Annonce</th>
+		<th>Moto</th> 
+		<th>Année</th>
+		<th>Kilométrage</th>
+		<th>Département</th>
+		<th>Photo</th>
+		<th>Date</th>
+	</tr>
+	
+	{% endif %}
+  
     {% for annonce in listeAnnonces %}
-      <li>
-        <a href="{{ path('doc_moto_annonce', {'id': annonce.id}) }}">
-          {{ annonce.titre }}
-        </a>
-      </li>
-	  {% if annonce.photo1 is not null %}
-		<img 
-		  src="{{ asset((annonce.photo1.webPath) | apply_filter('my_petit')) }}"
-		  alt="{{ annonce.photo1.alt }}"
-		/>
-	  {% endif %}
+		<tr>
+		
+			<td>
+			<a href="{{ path('doc_moto_annonce', {'id': annonce.id}) }}">
+			  {{ annonce.titre }}
+			</a>
+			</td>
+			<td>{{ annonce.moto.marque.nom }}<br />{{ annonce.moto.modele }}</td>
+			<td>{{ annonce.annee }}</td>
+			<td>{{ annonce.kilometrage }}</td>
+			<td>{{ annonce.departement.nom }}</td>
+		
+			<td>
+				{% if annonce.photos|length > 0 %}
+					  {% if annonce.photos[0] %}
+						<img 
+						  src="{{ asset((annonce.photos[0].webPath) | apply_filter('my_petit')) }}"
+						  alt="{{ annonce.photos[0].alt }}"
+						/>
+					  {% endif %}
+				{% endif %}
+			</td>
+			
+			
+			<td>{{ annonce.date|date("d/m/Y") }}</td>
 
-	  {{ annonce.moto.marque.nom }}
-	  {{ annonce.moto.modele }} <br />
-	  de {{ annonce.pseudo }} en {{ annonce.departement.nom }} <br />
+	  	 
+		</tr>
+		 
     {% else %}
-      <li>Pas (encore !) d'annonces</li>
+      <li>Aucune annonce compatible avec celle-ci.</li>
     {% endfor %}
+	
+	
+	{% if listeAnnonces %}
+	</table>
+	{% endif %}
+	
   </ul>
 
 {% endblock %}

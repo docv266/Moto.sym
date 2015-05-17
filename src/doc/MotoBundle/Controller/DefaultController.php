@@ -25,7 +25,11 @@ class DefaultController extends Controller
 		  ->getManager()
 		  ->getRepository('docMotoBundle:Annonce');
 
-		$listeAnnonces = $repository->findByAutorisee(true);
+		//$listeAnnonces = $repository->findByAutorisee(true);
+		$listeAnnonces = $repository->findBy(
+			array('autorisee' => true),
+			array('date' => 'asc')
+		);
 		
 		
 		$messagesTableau = $request->getSession()->getFlashBag()->get('notice');
@@ -42,7 +46,6 @@ class DefaultController extends Controller
 		$annonce = new Annonce();
 
 		$form = $this->get('form.factory')->create(new AnnonceType, $annonce);
-		
 		$form->handleRequest($request);
 		
 		
@@ -56,12 +59,12 @@ class DefaultController extends Controller
           $annonce->setPassword($password);
  
           		  
-		  // On l'enregistre notre objet $annonce dans la base de données, par exemple
+		  // On enregistre notre objet $annonce dans la base de données, par exemple
 		  $em = $this->getDoctrine()->getManager();
 		  $em->persist($annonce);
 		  $em->flush();
 
-		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.<br />Vous allez recevoir un mail pour la valider.');
+		  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée. Vous allez recevoir un mail pour la valider.');
 
 		  
 		  // Envoi du mail

@@ -4,6 +4,14 @@
   Ajouter - {{ parent() }}
 {% endblock %}
 
+{% block stylesheets %}
+    
+    {{ parent() }}
+	<link rel="stylesheet" href="/Symfony/web/kartik-v-bootstrap-fileinput/css/fileinput.min.css" media="all" type="text/css" />
+	<link rel="stylesheet" href="/Symfony/web/chosen/chosen.css">
+		
+{% endblock %}
+
 {% block docmoto_body %}
 
 
@@ -12,160 +20,173 @@
 		<h2>Modification</h2>
 
 	  <div class="well">
-	  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+  {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-		{# Les erreurs générales du formulaire. #}
-		{{ form_errors(form) }}
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
 
-		<div class="form-group">
-		  {{ form_label(form.titre, "Titre de l'annonce", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.titre) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
-		  </div>
-		</div>
+	<div class="panel panel-success">
+		<div class="panel-heading">Votre moto</div>
+		<div class="panel-body">
 		
+		
+			<div class="form-group">
+			  {{ form_label(form.titre, "Titre de l'annonce*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
 				
-		<div class="form-group">
-		  {{ form_label(form.moto, "Modèle", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.moto) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.moto, {'attr': {'class': 'chzn-select'}}) }}
-		  </div>
-		</div>
-		
-		
-		<div class="form-group">
-		  {{ form_label(form.photo1, "Première photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.photo1) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.photo1) }}
-		  </div>
-		</div>
+			  </div>
+			  			  			
+				{{ form_errors(form.titre) }}
+			  
+			</div>
+			
+					
+			<div class="form-group">
+			  {{ form_label(form.moto, "Modèle*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.moto, {'attr': {'class': 'chzn-select'}}) }}
+			  </div>
+				{{ form_errors(form.moto) }}
+			</div>
+			
+			
+			<div class="form-group">
+			  {{ form_label(form.photos, "Photos", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.photos) }}
+			  </div>
+				{{ form_errors(form.photos) }}
+			  			  		  
+			</div>
+			
+							
+			<div class="form-group">
+			  {{ form_label(form.description, "Contenu de l'annonce*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows' : '6', 'style' : 'resize: none'}}) }}
+			  </div>
+				{{ form_errors(form.description) }}
+			</div>
 
-		<div class="form-group">
-		  {{ form_label(form.photo2, "Deuxième photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.photo2) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.photo2) }}
-		  </div>
-		</div>
+			
+			
+			<div class="form-group">
+			  {{ form_label(form.annee, "Année*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  
+			  <div class="col-lg-6">
+				
+				{{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+				
+			  </div>
+				
+				{{ form_errors(form.annee) }}
+				
+			</div>
 
-		<div class="form-group">
-		  {{ form_label(form.photo3, "Troisième photo", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.photo3) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.photo3) }}
-		  </div>
-		</div>
+			
+			<div class="form-group">
+			  {{ form_label(form.kilometrage, "Kilométrage*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.kilometrage, {'attr': {'class': 'form-control'}}) }}
+			  </div>
+				{{ form_errors(form.kilometrage) }}
+			</div>
+
+			
+			<div class="form-group">
+			  {{ form_label(form.prix, "Prix*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+			  
+			  <div class="col-lg-6">
+				{{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+			  </div>
+				{{ form_errors(form.prix) }}
+			</div>
 		
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.description, "Contenu de l'annonce", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.titre) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-		  </div>
 		</div>
-
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.annee, "Année", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.annee) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
-		  </div>
-		</div>
-
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.kilometrage, "Kilométrage", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.kilometrage) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.kilometrage, {'attr': {'class': 'form-control'}}) }}
-		  </div>
-		</div>
+	</div>
+	
+	<div class="panel panel-info">
+		<div class="panel-heading">Ce que vous voulez</div>
+		<div class="panel-body">
 		
 		<div class="form-group">
-		  {{ form_label(form.motos_voulues, "Motos voulues", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.motos_voulues) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.motos_voulues, "Motos voulues", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.motos_voulues, {'attr': {'class': 'chzn-select'}}) }}
 		  </div>
+				{{ form_errors(form.motos_voulues) }}
 		</div>
 		
 		<div class="form-group">
-		  {{ form_label(form.marques_voulues, "Marques voulues", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.marques_voulues) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.marques_voulues, "Marques voulues", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.marques_voulues, {'attr': {'class': 'chzn-select'}}) }}
 		  </div>
+				{{ form_errors(form.marques_voulues) }}
 		</div>
 		
 		
 		<div class="form-group">
-		  {{ form_label(form.genres_voulus, "Genres voulus", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.genres_voulus) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.genres_voulus, "Genres voulus", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.genres_voulus, {'attr': {'class': 'chzn-select'}}) }}
 		  </div>
+				{{ form_errors(form.genres_voulus) }}
 		</div>
 
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.anneeMini, "Année minimum", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.anneeMini) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.anneeMini, {'attr': {'class': 'form-control'}}) }}
-		  </div>
+				
 		</div>
-
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">Vous!</div>
+		<div class="panel-body">
+	
 		{# Idem pour un autre champ. #}
 		<div class="form-group">
-		  {{ form_label(form.kilometrageMaxi, "Kilométrage maximum", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.kilometrageMaxi) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.kilometrageMaxi, {'attr': {'class': 'form-control'}}) }}
-		  </div>
-		</div>
-		
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.departement, "Département", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.departement) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.departement, "Département*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
 		  </div>
+				{{ form_errors(form.departement) }}
 		</div>
 
 		{# Idem pour un autre champ. #}
 		<div class="form-group">
-		  {{ form_label(form.pseudo, "Nom", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.pseudo) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.pseudo, "Nom*", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
 		  </div>
+				{{ form_errors(form.pseudo) }}
 		</div>
 
 		{# Idem pour un autre champ. #}
 		<div class="form-group">
-		  {{ form_label(form.mail, "Adresse mail", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.mail) }}
-		  <div class="col-sm-4">
-			{{ form_widget(form.mail, {'attr': {'class': 'form-control'}}) }}
-		  </div>
-		</div>
-
-		{# Idem pour un autre champ. #}
-		<div class="form-group">
-		  {{ form_label(form.telephone, "Téléphone", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-		  {{ form_errors(form.telephone) }}
-		  <div class="col-sm-4">
+		  {{ form_label(form.telephone, "Téléphone", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+		  
+		  <div class="col-lg-6">
 			{{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
 		  </div>
+				{{ form_errors(form.telephone) }}
 		</div>
 
-	  	  
+
+		</div>
+	</div>
+
+  <div class="col-lg-6">
 
 	  {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
 	  {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
@@ -173,11 +194,17 @@
 	  {# Génération automatique des champs pas encore écrits.
 		 Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
 		 et tous les champs cachés (type « hidden »). #}
+		 
 	  {{ form_rest(form) }}
-	  
-	  {# Fermeture de la balise <form> du formulaire HTML #}
-	  {{ form_end(form) }}
-	</div>
+    
+  </div>
+  
+  {# Fermeture de la balise <form> du formulaire HTML #}
+  {{ form_end(form) }}
+  
+  
+	<br />
+</div>
 	
 	{% else %}
 	
@@ -221,3 +248,96 @@
 	{% endif %}
 
 {% endblock %}
+
+{% block javascripts %}
+		
+		{{ parent() }}
+		<script type="text/JavaScript" src="/Symfony/web/chosen/chosen.jquery.min.js"></script>
+		<script type="text/JavaScript" src="/Symfony/web/kartik-v-bootstrap-fileinput/js/fileinput.min.js"></script>
+		
+		<script>
+			   
+			jQuery(document).ready(function(){
+			
+				$('select.chzn-select').chosen();
+						
+			});
+				
+			
+	   </script>
+	   
+	   {# Voici le script en question : #}
+	<script type="text/javascript">
+	
+		
+	
+		$(document).ready(function() {
+		// On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+		var $container = $('div#doc_motobundle_annonce_photos');
+
+		// On ajoute un lien pour ajouter une nouvelle catégorie
+		var $addLink = $('<a href="#" id="add_category" class="btn btn-default">Ajouter une photo</a>');
+		$container.append($addLink);
+
+		// On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+		$addLink.click(function(e) {
+		  addPhoto($container);
+		  e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+		  return false;
+		});
+
+		// On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+		var index = $container.find(':input').length;
+
+		// On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+		if (index > 0) {
+		  // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+		  $container.children('div').each(function() {
+			addDeleteLink($(this));
+		  });
+		}
+
+		// La fonction qui ajoute un formulaire Photo
+		function addPhoto($container) {
+		
+		  if ($container.children('div').length < 3)
+		  {
+		  			
+			  // Dans le contenu de l'attribut « data-prototype », on remplace :
+			  // - le texte "__name__label__" qu'il contient par le label du champ
+			  // - le texte "__name__" qu'il contient par le numéro du champ
+			  //var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Photo n°' + (index+1)).replace(/__name__/g, index));
+			  var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, '').replace(/__name__/g, index));
+
+			  // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+			  addDeleteLink($prototype);
+
+			  // On ajoute le prototype modifié à la fin de la balise <div>
+			  $container.append($prototype);
+
+			  // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+			  index++;
+		  
+		  }
+		  
+		}
+
+		// La fonction qui ajoute un lien de suppression d'une catégorie
+		function addDeleteLink($prototype) {
+		  // Création du lien
+		  $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+		  // Ajout du lien
+		  $prototype.append($deleteLink);
+
+		  // Ajout du listener sur le clic du lien
+		  $deleteLink.click(function(e) {
+			$prototype.remove();
+			e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+			return false;
+		  });
+		}
+	  });
+	</script>
+		
+  {% endblock %}

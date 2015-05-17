@@ -7,24 +7,29 @@
 {% block docmoto_body %}
 
   <h2>
-  Voir l'annonce
-  
+  {{ annonce.titre }}
   </h2>
-
-  {{ annonce.titre }}<br />
-  {{ annonce.moto.marque.nom }}
-  {{ annonce.moto.modele }} <br />
-  {% if annonce.photo1 is not null %}
-  <img
-  src="{{ asset(annonce.photo1.webPath | apply_filter('my_normal')) }}"
-  alt="{{ annonce.photo1.alt }}"
-  />
-  {% endif %}
+  
+  {% for photo in annonce.photos %}
+	  <img
+	  src="{{ asset(photo.webPath | apply_filter('my_normal')) }}"
+	  alt="{{ photo.alt }}"
+	  />
+  {% endfor %}
+  <br />
+  
   <br />
   <br />
   
-  <a href="{{ path('doc_moto_supprimer', {'id': annonce.id}) }}" class="btn btn-default">
-      Supprimer l'annonce
+  <pre>
+  {{ annonce.description }}
+  </pre>
+  
+  
+  <br />
+  
+   <a href="{{ path('doc_moto_annonces_compatibles', {'id': annonce.id}) }}" class="btn btn-default">
+      Voir les annonces compatibles avec celle-ci
   </a>
 
   <br />
@@ -37,8 +42,10 @@
   <br />
   <br />
   
-  <a href="{{ path('doc_moto_annonces_compatibles', {'id': annonce.id}) }}" class="btn btn-default">
-      Voir les annonces compatiblees avec celle-ci
+  <a href="{{ path('doc_moto_supprimer', {'id': annonce.id}) }}" class="btn btn-default">
+      Supprimer l'annonce
   </a>
+  
+ 
   
 {% endblock %}

@@ -39,9 +39,16 @@ class Photo
     private $alt;
 	
     /**
-	 * @Assert\Image(maxSize="3M", maxSizeMessage="Votre fichier est trop gros: ({{ size }} > {{ limit }}).")
+	 * @Assert\Image(minWidth=100, maxWidth=1000, minHeight=100, maxHeight=1000, mimeTypesMessage="Doit être une image valide.", sizeNotDetectedMessage="Mauvaise taille", maxSize="3M", maxSizeMessage="Votre fichier est trop gros: ({{ size }} > {{ limit }}).")
      */
 	private $file;
+	
+	/**
+     * @ORM\ManyToOne(targetEntity="doc\MotoBundle\Entity\Annonce", inversedBy="photos")
+     * @ORM\JoinColumn(nullable=true)
+	 * @Assert\Valid()
+     */
+    private $annonce;
 	
 	private $tempFilename;
   
@@ -209,5 +216,29 @@ class Photo
 	public function getLabel()
     {
 		return 'Photo';
+    }
+
+   
+    /**
+     * Set annonce
+     *
+     * @param \doc\MotoBundle\Entity\Annonce $annonce
+     * @return Photo
+     */
+    public function setAnnonce(\doc\MotoBundle\Entity\Annonce $annonce = null)
+    {
+        $this->annonce = $annonce;
+
+        return $this;
+    }
+
+    /**
+     * Get annonce
+     *
+     * @return \doc\MotoBundle\Entity\Annonce 
+     */
+    public function getAnnonce()
+    {
+        return $this->annonce;
     }
 }

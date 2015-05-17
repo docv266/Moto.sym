@@ -15,12 +15,12 @@
           {{ annonce.titre }}
         </a>
       </li>
-	  {% if annonce.photo1 is not null %}
+	  {% for photo in annonce.photos %}
 		<img 
-		  src="{{ asset((annonce.photo1.webPath) | apply_filter('my_petit')) }}"
-		  alt="{{ annonce.photo1.alt }}"
+		  src="{{ asset((photo.webPath) | apply_filter('my_petit')) }}"
+		  alt="{{ photo.alt }}"
 		/>
-	  {% endif %}
+	  {% endfor %}
 
 	  {{ annonce.moto.marque.nom }}
 	  {{ annonce.moto.modele }} <br />

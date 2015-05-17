@@ -15,13 +15,20 @@ class PhotoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('file', 'file',
-			array('attr' => array('class' => 'file'),
-					'label' => false
-				))
+            ->add('file')
         ;
     }
     
+	/*
+	class="file" 
+	accept="image/*" 
+	data-browse-label="Parcourir" 
+	data-show-upload="false" 
+	data-preview-file-type="image" 
+	data-max-file-size="3072" 
+	data-msg-size-too-large="Le fichier ne doit pas dépasser 3Mo."
+	*/
+	
     /**
      * @param OptionsResolverInterface $resolver
      */

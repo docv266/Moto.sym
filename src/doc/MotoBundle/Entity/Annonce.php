@@ -26,7 +26,7 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Titre", type="string", length=50)
-     * @Assert\Length(min=5, minMessage="Le titre doit faire au moins {{ limit }} caractères.")
+     * @Assert\Length(min=5, minMessage="Doit faire au moins {{ limit }} caractères.", max=20, maxMessage="Limité à {{ limit }} caractères.")
      */
     private $titre;
 
@@ -34,7 +34,7 @@ class Annonce
      * @var integer
      *
      * @ORM\Column(name="Annee", type="integer")
-     * @Assert\Range(min=1800, max=3000)
+     * @Assert\Range(min=1800, max=3000, minMessage="Doit être supérieur à {{ limit }}.", maxMessage="Doit être inférieur à {{ limit }}.", invalidMessage="Doit être un nombre.")
      */
     private $annee;
 
@@ -42,7 +42,7 @@ class Annonce
      * @var integer
      *
      * @ORM\Column(name="Kilometrage", type="integer")
-     * @Assert\Range(min=0, max=1000000)
+     * @Assert\Range(min=0, max=1000000, minMessage="Doit être supérieur à {{ limit }}.", maxMessage="Doit être inférieur à {{ limit }}.", invalidMessage="Doit être un nombre.")
      */
     private $kilometrage;
 
@@ -50,31 +50,23 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Description", type="text")
-     * @Assert\NotBlank()
+     * @Assert\Length(min=5, minMessage="Doit faire au moins {{ limit }} caractères.", max=200, maxMessage="Limité à {{ limit }} caractères.")
      */
     private $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Annee_mini", type="integer", nullable=true) 
-     * @Assert\Range(min=1800, max=3000)
+     * @ORM\Column(name="Prix", type="integer") 
+     * @Assert\Range(min=0, max=1000000, minMessage="Doit être supérieur à {{ limit }}.", maxMessage="Doit être inférieur à {{ limit }}.", invalidMessage="Doit être un nombre.")
      */
-    private $anneeMini;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Kilometrage_maxi", type="integer", nullable=true)
-     * @Assert\Range(min=0, max=1000000)
-     */
-    private $kilometrageMaxi;
+    private $prix;
 
     /**
      * @var string
      *
      * @ORM\Column(name="Pseudo", type="string", length=20)
-     * @Assert\Length(min=2, minMessage="Le nom doit faire au moins {{ limit }} caractères.")
+     * @Assert\Length(min=3, minMessage="Doit faire au moins {{ limit }} caractères.", max=10, maxMessage="Limité à {{ limit }} caractères.")
      */
     private $pseudo;
 
@@ -82,7 +74,7 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Mail", type="string", length=50)
-     * @Assert\Email
+     * @Assert\Email(message="N'est pas un mail valide.")
      */
     private $mail;
 
@@ -90,6 +82,7 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Telephone", type="string", length=12, nullable=true)
+	 * @Assert\Regex(pattern="/^((\+|00)33\s?|0)[1-9](\s?\d{2}){4}$/", message="Doit être un n° de téléphone valide.")
      */
     private $telephone;
 
@@ -97,6 +90,7 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Password", type="string", length=255)
+	 * @Assert\Length(min=5, minMessage="Doit faire au moins {{ limit }} caractères.", max=30, maxMessage="Limité à {{ limit }} caractères.")
      */
     private $password;
 
@@ -168,29 +162,12 @@ class Annonce
     private $genres_voulus;
 
 	/**
-     * @ORM\OneToOne(targetEntity="doc\MotoBundle\Entity\Photo", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-	 * @ORM\JoinTable(name="annonce_photo1")
+     * @ORM\OneToMany(targetEntity="doc\MotoBundle\Entity\Photo", mappedBy="annonce", cascade={"persist", "remove"})
 	 * @Assert\Valid()
      */
-    private $photo1;
-
-	/**
-     * @ORM\OneToOne(targetEntity="doc\MotoBundle\Entity\Photo", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-	 * @ORM\JoinTable(name="annonce_photo2")
-	 * @Assert\Valid()
-     */
-    private $photo2;
-
-	/**
-     * @ORM\OneToOne(targetEntity="doc\MotoBundle\Entity\Photo", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-	 * @ORM\JoinTable(name="annonce_photo3")
-	 * @Assert\Valid()
-     */
-    private $photo3;
-
+    private $photos;
+	
+		
 	/**
      * Get id
      *
@@ -291,52 +268,6 @@ class Annonce
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set anneeMini
-     *
-     * @param integer $anneeMini
-     * @return Annonce
-     */
-    public function setAnneeMini($anneeMini)
-    {
-        $this->anneeMini = $anneeMini;
-
-        return $this;
-    }
-
-    /**
-     * Get anneeMini
-     *
-     * @return integer 
-     */
-    public function getAnneeMini()
-    {
-        return $this->anneeMini;
-    }
-
-    /**
-     * Set kilometrageMaxi
-     *
-     * @param integer $kilometrageMaxi
-     * @return Annonce
-     */
-    public function setKilometrageMaxi($kilometrageMaxi)
-    {
-        $this->kilometrageMaxi = $kilometrageMaxi;
-
-        return $this;
-    }
-
-    /**
-     * Get kilometrageMaxi
-     *
-     * @return integer 
-     */
-    public function getKilometrageMaxi()
-    {
-        return $this->kilometrageMaxi;
     }
 
     /**
@@ -553,6 +484,7 @@ class Annonce
         $this->motos_voulues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->genres_voulus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->marques_voulues = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->photos = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->date = new \Datetime();
 		$this->autorisee = false;
 		$this->validee = false;
@@ -615,76 +547,7 @@ class Annonce
     {
         return $this->genres_voulus;
     }
-
-    /**
-     * Set photo1
-     *
-     * @param \doc\MotoBundle\Entity\Photo $photo1
-     * @return Annonce
-     */
-    public function setPhoto1(\doc\MotoBundle\Entity\Photo $photo1 = null)
-    {
-        $this->photo1 = $photo1;
-
-        return $this;
-    }
-
-    /**
-     * Get photo1
-     *
-     * @return \doc\MotoBundle\Entity\Photo 
-     */
-    public function getPhoto1()
-    {
-        return $this->photo1;
-    }
-
-    /**
-     * Set photo2
-     *
-     * @param \doc\MotoBundle\Entity\Photo $photo2
-     * @return Annonce
-     */
-    public function setPhoto2(\doc\MotoBundle\Entity\Photo $photo2 = null)
-    {
-        $this->photo2 = $photo2;
-
-        return $this;
-    }
-
-    /**
-     * Get photo2
-     *
-     * @return \doc\MotoBundle\Entity\Photo 
-     */
-    public function getPhoto2()
-    {
-        return $this->photo2;
-    }
-
-    /**
-     * Set photo3
-     *
-     * @param \doc\MotoBundle\Entity\Photo $photo3
-     * @return Annonce
-     */
-    public function setPhoto3(\doc\MotoBundle\Entity\Photo $photo3 = null)
-    {
-        $this->photo3 = $photo3;
-
-        return $this;
-    }
-
-    /**
-     * Get photo3
-     *
-     * @return \doc\MotoBundle\Entity\Photo 
-     */
-    public function getPhoto3()
-    {
-        return $this->photo3;
-    }
-
+    
     /**
      * Add marques_voulues
      *
@@ -809,4 +672,109 @@ class Annonce
     {
         return $this->validee;
     }
+
+    /**
+     * Set prix
+     *
+     * @param integer $prix
+     * @return Annonce
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return integer 
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+	
+	/**
+     * Add photo
+     *
+     * @param \doc\MotoBundle\Entity\Photo $photos
+     * @return Annonce
+     */
+	public function addPhoto(\doc\MotoBundle\Entity\Photo $photos = null)
+    {
+		if (null !== $photos) {
+			$this->photos[] = $photos;
+			$photos->setAnnonce($this);
+			return $this;
+		}
+    }
+ 
+ 
+    /**
+     * Remove photo
+     *
+     * @param \doc\MotoBundle\Entity\Photo $photo
+     */
+    public function removePhoto(\doc\MotoBundle\Entity\Photo $photo)
+    {
+        $this->images->removeElement($photo);
+    }
+ 
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+	
+
+	
+		
+	/**
+    * @ORM\PrePersist()
+    * @ORM\PreUpdate()
+    */
+    public function preUpload()
+    {
+        foreach ($this->photos as $photo){
+            $photo->preUpload();   
+        }
+    }
+ 
+    /**
+    * @ORM\PostPersist()
+    * @ORM\PostUpdate()
+    */
+    public function upload()
+    {
+        foreach ($this->photos as $photo){
+            $photo->upload();
+        }
+    }
+ 
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemoveUpload()
+    {
+        foreach ($this->photos as $photo){
+            $photo->preRemoveUpload();   
+        }
+    }
+ 
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        foreach ($this->photos as $photo){
+            $photo->removeUpload();   
+        }
+    }
+	
 }
