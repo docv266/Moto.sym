@@ -28,7 +28,7 @@ class DefaultController extends Controller
 		//$listeAnnonces = $repository->findByAutorisee(true);
 		$listeAnnonces = $repository->findBy(
 			array('autorisee' => true),
-			array('date' => 'asc')
+			array('date' => 'desc')
 		);
 		
 		
@@ -99,8 +99,7 @@ class DefaultController extends Controller
 			throw new NotFoundHttpException('Page inexistante.');
 		}
 		
-		$form = $this->get('form.factory')->create(new AnnonceEditType, $annonce);
-		$form->handleRequest($request);
+		
 		
 		$form2 = $this->createForm(new PasswordType());
 		$form2->handleRequest($request);
@@ -109,12 +108,25 @@ class DefaultController extends Controller
         $encoder = $factory->getEncoder($annonce);	
 		
 		$passwordCorrect = $annonce->getPassword() === $encoder->encodePassword($form2->get('password')->getData(), $annonce->getSalt());
+		
+		
+		
+		$form = $this->get('form.factory')->create(new AnnonceEditType, $annonce);
+		$form->handleRequest($request);
+		
+		$messagesTableau = $request->getSession()->getFlashBag()->get('notice');
+		$message = end($messagesTableau);
+		
 		if (($form2->isValid() AND $passwordCorrect == true) OR $form->isValid())
 		{
 			
 			// On vérifie que les valeurs entrées sont correctes
 			if ($form->isValid())
 			{
+			  	
+			//On modifie la date d'édition
+			$annonce->setDate(new \Datetime());
+				
 			  // On enregistre notre objet $annonce dans la base de données, par exemple
 			  $em = $this->getDoctrine()->getManager();
 			  $em->persist($annonce);
@@ -122,15 +134,17 @@ class DefaultController extends Controller
 
 			  $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
+			  
+			  
 			  		  
 			  // On redirige vers la page de visualisation de l'annonce nouvellement modifiée
-			  return $this->redirect($this->generateUrl('doc_moto_annonce', array('id' => $annonce->getId())));
+			  return $this->redirect($this->generateUrl('doc_moto_annonce', array('id' => $annonce->getId(), 'message' => $message)));
 			}
 
 			// À ce stade, le formulaire n'est pas valide car :
 			// - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
 			// - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
-			return $this->render('docMotoBundle:Default:editer.html.twig', array('form' => $form->createView(), 'passwordOk' => true ));
+			return $this->render('docMotoBundle:Default:editer.html.twig', array('form' => $form->createView(), 'passwordOk' => true, 'message' => $message ));
 			
 		}
 		else
@@ -144,7 +158,7 @@ class DefaultController extends Controller
 				$messageErreur = null;
 			}
 			
-			return $this->render('docMotoBundle:Default:editer.html.twig', array('form2' => $form2->createView(), 'annonce' => $annonce, 'passwordOk' => false, 'messageErreur' => $messageErreur));
+			return $this->render('docMotoBundle:Default:editer.html.twig', array('form2' => $form2->createView(), 'annonce' => $annonce, 'passwordOk' => false, 'messageErreur' => $messageErreur, 'message' => $message));
 		}
     }
 	
@@ -212,7 +226,7 @@ class DefaultController extends Controller
         return $this->render('docMotoBundle:Default:annoncescompatibles.html.twig', array('listeAnnonces' => $listeAnnonces));
     }
 	
-    public function annonceAction($id)
+    public function annonceAction($id, Request $request)
     {
 		$repository = $this
 		  ->getDoctrine()
@@ -221,7 +235,10 @@ class DefaultController extends Controller
 
 		$annonce = $repository->findOneBy(array('id' => $id, 'autorisee' => true));
 		
-        return $this->render('docMotoBundle:Default:annonce.html.twig', array('annonce' => $annonce));
+		$messagesTableau = $request->getSession()->getFlashBag()->get('notice');
+		$message = end($messagesTableau);
+		
+        return $this->render('docMotoBundle:Default:annonce.html.twig', array('annonce' => $annonce, 'message' => $message));
     }
 	
 	public function pageValiderAction($code)

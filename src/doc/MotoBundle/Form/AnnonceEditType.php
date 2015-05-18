@@ -16,6 +16,7 @@ class AnnonceEditType extends AbstractType
     {
         $builder->remove('password');
         $builder->remove('mail');
+        $builder->remove('photos');
     }
     
     /**

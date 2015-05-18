@@ -90,7 +90,7 @@ class Annonce
      * @var string
      *
      * @ORM\Column(name="Password", type="string", length=255)
-	 * @Assert\Length(min=5, minMessage="Doit faire au moins {{ limit }} caractères.", max=30, maxMessage="Limité à {{ limit }} caractères.")
+	 * @Assert\Length(min=5, minMessage="Doit faire au moins {{ limit }} caractères.", max=90, maxMessage="Limité à {{ limit }} caractères.")
      */
     private $password;
 

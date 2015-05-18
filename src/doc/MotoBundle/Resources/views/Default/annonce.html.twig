@@ -10,6 +10,15 @@
   {{ annonce.titre }}
   </h2>
   
+    {% if message %} 
+		<div class="alert alert-success" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Succès:</span>
+			{{ message }}  
+		</div>
+  {% endif %}
+  
   {% for photo in annonce.photos %}
 	  <img
 	  src="{{ asset(photo.webPath | apply_filter('my_normal')) }}"
